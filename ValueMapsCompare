@@ -1,0 +1,173 @@
+package org.saki.urlcompare;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class ValueMapsCompare {
+
+	/**
+	 * @param args
+	 */
+	
+	static String fileSplitBy = "\\|";
+	static String fileDeLimit = "|";
+	
+	public static void main(String[] args) {        
+        
+        String valueMap_file_C4R = "C:\\Temp\\C4R_VALUE_MAPS.txt";
+        String line_C4R = "";        
+        BufferedReader br_C4R = null;
+        ArrayList<ValueMapData>  value_maps_C4R_list = new ArrayList<ValueMapData>();
+        
+        try {
+			br_C4R = new BufferedReader(new FileReader(valueMap_file_C4R));
+	        while ((line_C4R = br_C4R.readLine()) != null  ) {
+	        	
+                String[] file_data_C4R = line_C4R.split(fileSplitBy);
+                if ( file_data_C4R.length > 5 ) {
+                ValueMapData valueMap_ind_C4R = new ValueMapData();
+                
+                valueMap_ind_C4R.SID = file_data_C4R[0];
+                valueMap_ind_C4R.Group_ID = file_data_C4R[1];
+                valueMap_ind_C4R.description = file_data_C4R[2];
+                valueMap_ind_C4R.scheme = file_data_C4R[3];
+                valueMap_ind_C4R.agency = file_data_C4R[4];
+                valueMap_ind_C4R.value = file_data_C4R[5];
+                
+                value_maps_C4R_list.add(valueMap_ind_C4R );
+                }
+	            
+	        }
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+        String valueMap_file_E1R = "C:\\Temp\\E1R_VALUE_MAPS.txt";
+        String line_E1R = "";        
+        BufferedReader br_E1R = null;
+        ArrayList<ValueMapData>  value_maps_E1R_list = new ArrayList<ValueMapData>();
+        
+        try {
+			br_E1R = new BufferedReader(new FileReader(valueMap_file_E1R));
+	        while ((line_E1R = br_E1R.readLine()) != null  ) {
+	        	
+                String[] file_data_E1R = line_E1R.split(fileSplitBy);
+                if ( file_data_E1R.length > 5 ) {
+                ValueMapData valueMap_ind_E1R = new ValueMapData();
+                valueMap_ind_E1R.SID = file_data_E1R[0];
+                valueMap_ind_E1R.Group_ID = file_data_E1R[1];
+                valueMap_ind_E1R.description = file_data_E1R[2];
+                valueMap_ind_E1R.scheme = file_data_E1R[3];
+                valueMap_ind_E1R.agency = file_data_E1R[4];
+                valueMap_ind_E1R.value = file_data_E1R[5];
+                
+                value_maps_E1R_list.add(valueMap_ind_E1R );}
+	            
+	        }
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+
+        String valueMap_file_E1Q = "C:\\Temp\\E1Q_VALUE_MAPS.txt";
+        String line_E1Q = "";        
+        BufferedReader br_E1Q = null;
+        ArrayList<ValueMapData>  value_maps_E1Q_list = new ArrayList<ValueMapData>();
+        
+        try {
+			br_E1Q = new BufferedReader(new FileReader(valueMap_file_E1Q));
+	        while ((line_E1Q = br_E1Q.readLine()) != null  ) {
+	        	
+                String[] file_data_E1Q = line_E1Q.split(fileSplitBy);
+                
+                if ( file_data_E1Q.length > 5 ) {                
+                ValueMapData valueMap_ind_E1Q = new ValueMapData();
+                valueMap_ind_E1Q.SID = file_data_E1Q[0];
+                valueMap_ind_E1Q.Group_ID = file_data_E1Q[1];
+                valueMap_ind_E1Q.description = file_data_E1Q[2];
+                valueMap_ind_E1Q.scheme = file_data_E1Q[3];
+                valueMap_ind_E1Q.agency = file_data_E1Q[4];
+                valueMap_ind_E1Q.value = file_data_E1Q[5];
+                
+                value_maps_E1Q_list.add(valueMap_ind_E1Q );}
+	            
+	        }
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		
+		Boolean flag_found = false;
+		value_maps_E1R_list.addAll(value_maps_C4R_list);
+		
+/*		System.out.println("Match Found" 
+				+ fileDeLimit+  "Source SID" 
+				+ fileDeLimit+  "Source Group ID"
+				+ fileDeLimit+  "Target Group ID"
+				+ fileDeLimit+  "Source Agency" 
+				+ fileDeLimit+  "Source Scheme" 
+				+ fileDeLimit+ "Source Value" );
+*/		
+		
+		for(ValueMapData value_map_XI70_ind:value_maps_E1R_list ){
+			flag_found = false;
+			
+			for(ValueMapData value_map_PI74_ind:value_maps_E1Q_list ){
+				flag_found = false;
+				if ( value_map_XI70_ind.agency.equals(value_map_PI74_ind.agency ) 
+					&& value_map_XI70_ind.scheme.equals(value_map_PI74_ind.scheme )
+					&& value_map_XI70_ind.value.equals(value_map_PI74_ind.value )) {
+
+/*					System.out.println("Yes" 
+							+ fileDeLimit+  value_map_XI70_ind.SID 
+							+ fileDeLimit+  value_map_XI70_ind.Group_ID
+							+ fileDeLimit+  value_map_PI74_ind.Group_ID
+							+ fileDeLimit+  value_map_XI70_ind.agency 
+							+ fileDeLimit+value_map_XI70_ind.scheme 
+							+ fileDeLimit+value_map_XI70_ind.value );
+*/					
+					flag_found = true;
+					break;
+				}
+				
+				
+				
+			}			
+			
+			if (!flag_found)
+				System.out.println(
+//						"No"+fileDeLimit+ 
+						 
+						value_map_XI70_ind.SID 
+						+ fileDeLimit+  value_map_XI70_ind.Group_ID
+						+ fileDeLimit+  value_map_XI70_ind.description
+						+ fileDeLimit+  value_map_XI70_ind.agency 
+						+ fileDeLimit+value_map_XI70_ind.scheme 
+						+ fileDeLimit+value_map_XI70_ind.value );
+			
+		}
+		
+		
+		
+	}}
+
+
